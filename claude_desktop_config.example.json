@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "fmp": {
+      "command": "python",
+      "args": ["-m", "fmp_mcp.server"],
+      "env": {
+        "FMP_API_KEY": "your_api_key_here"
+      }
+    }
+  }
+}
