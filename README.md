@@ -4,11 +4,11 @@ MCP server for Financial Modeling Prep API. Enables Claude to access real-time s
 
 ## Features
 
-**Company (8 tools)**: Profile, search, screening, CIK/CUSIP/ISIN lookup, stock list
+**Company (9 tools)**: Profile, search, screening, CIK/CUSIP/ISIN lookup, stock list, news search
 
 **Market (7 tools)**: Real-time quotes, historical prices, P/E ratios, sector/industry performance
 
-**Crypto (4 tools)**: Quotes, list, historical data, news
+**Crypto (6 tools)**: Quotes, list, intraday data, daily historical data, news, search news
 
 **Financials (4 tools)**: Income statement, balance sheet, cash flow, growth metrics
 
@@ -54,6 +54,8 @@ Add to Claude Desktop config:
 - "Show me Tesla's income statement for the last 3 years"
 - "What's the current Bitcoin price?"
 - "Get historical prices for NVDA over the last 30 days"
+- "Search for recent news about Apple and Tesla stocks"
+- "Get daily Bitcoin historical prices for the last month"
 
 ## Development
 

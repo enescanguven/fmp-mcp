@@ -32,7 +32,7 @@ def get_crypto_tools() -> list[Tool]:
         ),
         Tool(
             name="get_crypto_historical",
-            description="Get historical cryptocurrency price data with various time intervals",
+            description="Get intraday historical cryptocurrency price data with various time intervals (1min to 4hour)",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -44,6 +44,28 @@ def get_crypto_tools() -> list[Tool]:
                         "type": "string",
                         "description": "Time interval: '1min', '5min', '15min', '30min', '1hour', '4hour'",
                         "default": "1hour"
+                    },
+                    "from_date": {
+                        "type": "string",
+                        "description": "Start date in YYYY-MM-DD format"
+                    },
+                    "to_date": {
+                        "type": "string",
+                        "description": "End date in YYYY-MM-DD format"
+                    }
+                },
+                "required": ["symbol"]
+            }
+        ),
+        Tool(
+            name="get_crypto_historical_price",
+            description="Get daily historical cryptocurrency price data (end-of-day prices)",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "symbol": {
+                        "type": "string",
+                        "description": "Crypto pair symbol (e.g., 'BTCUSD', 'ETHUSD')"
                     },
                     "from_date": {
                         "type": "string",
@@ -71,6 +93,32 @@ def get_crypto_tools() -> list[Tool]:
                 }
             }
         ),
+        Tool(
+            name="search_crypto_news",
+            description="Search cryptocurrency news articles with filters",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "symbol": {
+                        "type": "string",
+                        "description": "Crypto symbol to search news for (e.g., 'BTC', 'ETH')"
+                    },
+                    "from_date": {
+                        "type": "string",
+                        "description": "Start date in YYYY-MM-DD format"
+                    },
+                    "to_date": {
+                        "type": "string",
+                        "description": "End date in YYYY-MM-DD format"
+                    },
+                    "limit": {
+                        "type": "number",
+                        "description": "Maximum number of news articles to return",
+                        "default": 50
+                    }
+                }
+            }
+        ),
     ]
 
 
@@ -90,9 +138,24 @@ def handle_crypto_tool(client: FMPClient, name: str, arguments: Any) -> Any:
             to_date=arguments.get("to_date")
         )
 
+    elif name == "get_crypto_historical_price":
+        return client.get_crypto_historical_price(
+            symbol=arguments["symbol"],
+            from_date=arguments.get("from_date"),
+            to_date=arguments.get("to_date")
+        )
+
     elif name == "get_crypto_news":
         return client.get_crypto_news_latest(
             limit=arguments.get("limit", 10)
+        )
+
+    elif name == "search_crypto_news":
+        return client.search_crypto_news(
+            symbol=arguments.get("symbol"),
+            from_date=arguments.get("from_date"),
+            to_date=arguments.get("to_date"),
+            limit=arguments.get("limit", 50)
         )
 
     return None

@@ -181,6 +181,30 @@ def get_company_tools() -> list[Tool]:
                 }
             }
         ),
+        Tool(
+            name="search_stock_news",
+            description="Search for news articles related to specific stock symbols",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "symbols": {
+                        "type": "string",
+                        "description": "Comma-separated stock symbols (e.g., 'AAPL,TSLA,MSFT')"
+                    },
+                    "page": {
+                        "type": "number",
+                        "description": "Page number for pagination",
+                        "default": 0
+                    },
+                    "limit": {
+                        "type": "number",
+                        "description": "Maximum number of news articles to return",
+                        "default": 50
+                    }
+                },
+                "required": ["symbols"]
+            }
+        ),
     ]
 
 
@@ -209,5 +233,12 @@ def handle_company_tool(client: FMPClient, name: str, arguments: Any) -> Any:
 
     elif name == "screen_stocks":
         return client.screen_stocks(**arguments)
+
+    elif name == "search_stock_news":
+        return client.search_stock_news(
+            symbols=arguments["symbols"],
+            page=arguments.get("page", 0),
+            limit=arguments.get("limit", 50)
+        )
 
     return None
