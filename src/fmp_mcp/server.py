@@ -4,6 +4,7 @@ import os
 import json
 from typing import Any
 from dotenv import load_dotenv
+import toon
 
 from mcp.server import Server
 from mcp.types import Tool, TextContent
@@ -47,16 +48,16 @@ def get_fmp_client() -> FMPClient:
 
 
 def format_response(data: Any) -> str:
-    """Format API response data as JSON string."""
+    """Format API response data as TOON string for reduced token usage."""
     if hasattr(data, 'model_dump'):
         # Single Pydantic model
-        return json.dumps(data.model_dump(), indent=2, default=str)
+        return toon.encode(data.model_dump())
     elif isinstance(data, list) and data and hasattr(data[0], 'model_dump'):
         # List of Pydantic models
-        return json.dumps([item.model_dump() for item in data], indent=2, default=str)
+        return toon.encode([item.model_dump() for item in data])
     else:
         # Raw dict/list
-        return json.dumps(data, indent=2, default=str)
+        return toon.encode(data)
 
 
 def handle_fmp_error(error: Exception) -> str:

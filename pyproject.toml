@@ -27,6 +27,7 @@ dependencies = [
     "mcp>=0.9.0",
     "fmp-python>=0.1.0",
     "python-dotenv>=1.0.0",
+    "python-toon>=0.1.0",
 ]
 
 [project.optional-dependencies]
