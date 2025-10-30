@@ -101,7 +101,7 @@ def get_crypto_tools() -> list[Tool]:
                 "properties": {
                     "symbol": {
                         "type": "string",
-                        "description": "Crypto symbol to search news for (e.g., 'BTC', 'ETH')"
+                        "description": "Crypto pair symbol to search news for (e.g., 'BTCUSD', 'ETHUSD')"
                     },
                     "from_date": {
                         "type": "string",
