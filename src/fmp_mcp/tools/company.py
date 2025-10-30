@@ -205,6 +205,44 @@ def get_company_tools() -> list[Tool]:
                 "required": ["symbols"]
             }
         ),
+        Tool(
+            name="get_general_news_latest",
+            description="Get latest general market news articles (not symbol-specific)",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "page": {
+                        "type": "number",
+                        "description": "Page number for pagination",
+                        "default": 0
+                    },
+                    "limit": {
+                        "type": "number",
+                        "description": "Maximum number of news articles to return",
+                        "default": 20
+                    }
+                }
+            }
+        ),
+        Tool(
+            name="get_stock_news_latest",
+            description="Get latest stock market news articles (all stocks)",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "page": {
+                        "type": "number",
+                        "description": "Page number for pagination",
+                        "default": 0
+                    },
+                    "limit": {
+                        "type": "number",
+                        "description": "Maximum number of news articles to return",
+                        "default": 20
+                    }
+                }
+            }
+        ),
     ]
 
 
@@ -239,6 +277,18 @@ def handle_company_tool(client: FMPClient, name: str, arguments: Any) -> Any:
             symbols=arguments["symbols"],
             page=arguments.get("page", 0),
             limit=arguments.get("limit", 50)
+        )
+
+    elif name == "get_general_news_latest":
+        return client.get_general_news_latest(
+            page=arguments.get("page", 0),
+            limit=arguments.get("limit", 20)
+        )
+
+    elif name == "get_stock_news_latest":
+        return client.get_stock_news_latest(
+            page=arguments.get("page", 0),
+            limit=arguments.get("limit", 20)
         )
 
     return None

@@ -51,13 +51,18 @@ def get_market_tools() -> list[Tool]:
         ),
         Tool(
             name="get_historical_price",
-            description="Get daily historical price data for a symbol",
+            description="Get daily historical price data for a symbol with different price adjustment types",
             inputSchema={
                 "type": "object",
                 "properties": {
                     "symbol": {
                         "type": "string",
                         "description": "Stock ticker symbol"
+                    },
+                    "price_type": {
+                        "type": "string",
+                        "description": "Price type: 'full', 'light', 'non-split-adjusted', 'dividend-adjusted'",
+                        "default": "full"
                     },
                     "from_date": {
                         "type": "string",
@@ -186,6 +191,7 @@ def handle_market_tool(client: FMPClient, name: str, arguments: Any) -> Any:
     elif name == "get_historical_price":
         return client.get_historical_price(
             symbol=arguments["symbol"],
+            price_type=arguments.get("price_type", "full"),
             from_date=arguments.get("from_date"),
             to_date=arguments.get("to_date"),
             timeseries=arguments.get("timeseries")
