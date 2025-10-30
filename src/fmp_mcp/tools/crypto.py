@@ -16,19 +16,16 @@ def get_crypto_tools() -> list[Tool]:
                 "properties": {
                     "symbol": {
                         "type": "string",
-                        "description": "Crypto pair symbol (e.g., 'BTCUSD', 'ETHUSD')"
+                        "description": "Crypto pair symbol (e.g., 'BTCUSD', 'ETHUSD')",
                     }
                 },
-                "required": ["symbol"]
-            }
+                "required": ["symbol"],
+            },
         ),
         Tool(
             name="get_crypto_list",
             description="Get list of all available cryptocurrencies",
-            inputSchema={
-                "type": "object",
-                "properties": {}
-            }
+            inputSchema={"type": "object", "properties": {}},
         ),
         Tool(
             name="get_crypto_historical",
@@ -38,24 +35,21 @@ def get_crypto_tools() -> list[Tool]:
                 "properties": {
                     "symbol": {
                         "type": "string",
-                        "description": "Crypto pair symbol (e.g., 'BTCUSD')"
+                        "description": "Crypto pair symbol (e.g., 'BTCUSD')",
                     },
                     "interval": {
                         "type": "string",
                         "description": "Time interval: '1min', '5min', '15min', '30min', '1hour', '4hour'",
-                        "default": "1hour"
+                        "default": "1hour",
                     },
                     "from_date": {
                         "type": "string",
-                        "description": "Start date in YYYY-MM-DD format"
+                        "description": "Start date in YYYY-MM-DD format",
                     },
-                    "to_date": {
-                        "type": "string",
-                        "description": "End date in YYYY-MM-DD format"
-                    }
+                    "to_date": {"type": "string", "description": "End date in YYYY-MM-DD format"},
                 },
-                "required": ["symbol"]
-            }
+                "required": ["symbol"],
+            },
         ),
         Tool(
             name="get_crypto_historical_price",
@@ -65,19 +59,16 @@ def get_crypto_tools() -> list[Tool]:
                 "properties": {
                     "symbol": {
                         "type": "string",
-                        "description": "Crypto pair symbol (e.g., 'BTCUSD', 'ETHUSD')"
+                        "description": "Crypto pair symbol (e.g., 'BTCUSD', 'ETHUSD')",
                     },
                     "from_date": {
                         "type": "string",
-                        "description": "Start date in YYYY-MM-DD format"
+                        "description": "Start date in YYYY-MM-DD format",
                     },
-                    "to_date": {
-                        "type": "string",
-                        "description": "End date in YYYY-MM-DD format"
-                    }
+                    "to_date": {"type": "string", "description": "End date in YYYY-MM-DD format"},
                 },
-                "required": ["symbol"]
-            }
+                "required": ["symbol"],
+            },
         ),
         Tool(
             name="get_crypto_news",
@@ -88,10 +79,10 @@ def get_crypto_tools() -> list[Tool]:
                     "limit": {
                         "type": "number",
                         "description": "Maximum number of news articles to return",
-                        "default": 10
+                        "default": 10,
                     }
-                }
-            }
+                },
+            },
         ),
         Tool(
             name="search_crypto_news",
@@ -99,25 +90,22 @@ def get_crypto_tools() -> list[Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "symbol": {
+                    "symbols": {
                         "type": "string",
-                        "description": "Crypto pair symbol to search news for (e.g., 'BTCUSD', 'ETHUSD')"
+                        "description": "Crypto pair symbol to search news for (e.g., 'BTCUSD', 'ETHUSD')",
                     },
                     "from_date": {
                         "type": "string",
-                        "description": "Start date in YYYY-MM-DD format"
+                        "description": "Start date in YYYY-MM-DD format",
                     },
-                    "to_date": {
-                        "type": "string",
-                        "description": "End date in YYYY-MM-DD format"
-                    },
+                    "to_date": {"type": "string", "description": "End date in YYYY-MM-DD format"},
                     "limit": {
                         "type": "number",
                         "description": "Maximum number of news articles to return",
-                        "default": 50
-                    }
-                }
-            }
+                        "default": 50,
+                    },
+                },
+            },
         ),
     ]
 
@@ -135,27 +123,25 @@ def handle_crypto_tool(client: FMPClient, name: str, arguments: Any) -> Any:
             symbol=arguments["symbol"],
             interval=arguments.get("interval", "1hour"),
             from_date=arguments.get("from_date"),
-            to_date=arguments.get("to_date")
+            to_date=arguments.get("to_date"),
         )
 
     elif name == "get_crypto_historical_price":
         return client.get_crypto_historical_price(
             symbol=arguments["symbol"],
             from_date=arguments.get("from_date"),
-            to_date=arguments.get("to_date")
+            to_date=arguments.get("to_date"),
         )
 
     elif name == "get_crypto_news":
-        return client.get_crypto_news_latest(
-            limit=arguments.get("limit", 10)
-        )
+        return client.get_crypto_news_latest(limit=arguments.get("limit", 10))
 
     elif name == "search_crypto_news":
         return client.search_crypto_news(
-            symbol=arguments.get("symbol"),
+            symbols=arguments.get("symbols"),
             from_date=arguments.get("from_date"),
             to_date=arguments.get("to_date"),
-            limit=arguments.get("limit", 50)
+            limit=arguments.get("limit", 50),
         )
 
     return None
