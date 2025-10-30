@@ -24,7 +24,7 @@ def get_market_tools() -> list[Tool]:
         ),
         Tool(
             name="get_historical_chart",
-            description="Get historical price data for a symbol with various time intervals (intraday and daily)",
+            description="Get intraday historical price data for a symbol with various time intervals (use get_historical_price for daily end-of-day data)",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -34,8 +34,8 @@ def get_market_tools() -> list[Tool]:
                     },
                     "interval": {
                         "type": "string",
-                        "description": "Time interval: '1min', '5min', '15min', '30min', '1hour', '4hour', '1day'",
-                        "default": "1day"
+                        "description": "Time interval: '1min', '5min', '15min', '30min', '1hour', '4hour'",
+                        "default": "1hour"
                     },
                     "from_date": {
                         "type": "string",
@@ -178,7 +178,7 @@ def handle_market_tool(client: FMPClient, name: str, arguments: Any) -> Any:
     elif name == "get_historical_chart":
         return client.get_historical_chart(
             symbol=arguments["symbol"],
-            interval=arguments.get("interval", "1day"),
+            interval=arguments.get("interval", "1hour"),
             from_date=arguments.get("from_date"),
             to_date=arguments.get("to_date")
         )
